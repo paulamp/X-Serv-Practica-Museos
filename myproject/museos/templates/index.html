@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<html>
+<body>
+  {% if request.user.is_authenticated %}
+    <p>Logged in as {{ request.user.username }} <a href="/logout">Logout</a></p>
+  {% else %}
+    <form method="post" action="/login">
+    {% csrf_token %}
+    <p>Username: <input type="text" name="username"/></p>
+    <p>Password: <input type="password" name="password"/></p>
+    <p><input type="submit" value="Login"/></p>
+    </form>
+  {% endif %}
+</body></html
