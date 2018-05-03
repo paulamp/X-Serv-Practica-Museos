@@ -6,10 +6,26 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
 from django.template import Context
+from XMLparser import MuseoParser
+from models import Museo
 
 # Create your views here.
-def home(request):
+
+def cargar(request):
+    museos = Museo.objects.all()
+    if not museos:
+        parse = MuseoParser()
+        parse.cargar()
+    else:
+        print "HAY hoteles"
     return render(request, 'index.html')
+
+def home(request):
+    museos = []
+    context ={
+        'museos':museos
+    }
+    return render(request, 'index.html',context)
 
 def user_login(request):
     if request.method == 'POST':
