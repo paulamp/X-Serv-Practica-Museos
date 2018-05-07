@@ -11,5 +11,9 @@
     <p><input type="submit" value="Login"/></p>
     </form>
   {% endif %}
-  <a href="/cargar">Cargar Museos</a>
+  {% if museos %}
+    <p>HAY MUSEOS</p>
+  {% else %}
+    <a href="/cargar">Cargar Museos</a>
+  {% endif %}
 </body></html

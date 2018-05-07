@@ -13,15 +13,12 @@ from models import Museo
 
 def cargar(request):
     museos = Museo.objects.all()
-    if not museos:
-        parse = MuseoParser()
-        parse.cargar()
-    else:
-        print "HAY hoteles"
-    return render(request, 'index.html')
+    parse = MuseoParser()
+    parse.cargar()
+    return HttpResponseRedirect("/")
 
 def home(request):
-    museos = []
+    museos = Museo.objects.all()
     context ={
         'museos':museos
     }
