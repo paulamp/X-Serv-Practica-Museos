@@ -1,19 +1,53 @@
+{% extends "new_base.html" %}
 {% load staticfiles %}
-<html>
-<body>
-  {% if request.user.is_authenticated %}
-    <p>Logged in as {{ request.user.username }} <a href="/logout">Logout</a></p>
-  {% else %}
-    <form method="post" action="/login">
-    {% csrf_token %}
-    <p>Username: <input type="text" name="username"/></p>
-    <p>Password: <input type="password" name="password"/></p>
-    <p><input type="submit" value="Login"/></p>
-    </form>
-  {% endif %}
-  {% if museos %}
-    <p>HAY MUSEOS</p>
-  {% else %}
-    <a href="/cargar">Cargar Museos</a>
-  {% endif %}
-</body></html
+
+{% block contents %}
+<div id="right">
+<div class="block">
+<strong>Página de usuarios</strong>
+    <ul>
+      <li><a href="#">Home Page</a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Page 1 </a></li>
+      <li><a href="#">Really Long Title of Page 2 </a></li>
+      </ul>
+</div>
+<div class="block">
+ <strong>Some Header for a Message</strong>
+  <p>This is the message that you can type in the sidebox.  It could be a news heading or even a new article with a teaser.</p>
+
+</div>
+</div>
+<div id="left">
+  <div class="museos">
+    {% if museos %}
+      <h3>Museos con mas comentarios</h3>
+      {% if accesibles %}
+      <form action="/">
+        <p><input type="submit" value="Museos Todos"/></p>
+      </form>
+      {% else %}
+        <form action="/accesibles">
+          <p><input type="submit" value="Museos Acesibles"/></p>
+        </form>
+      {% endif %}
+        <br>
+        {% for m in museos %}
+                <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
+                <div>Dirección: {{ m.direccion }}</div>
+                <div><a href="/museo/{{m.id}}">Mas información</a></div>
+                <hr>
+        {% endfor %}
+    {% else %}
+      <h3>Bienvenido a Museos de Madrid</h3>
+      <input type="button" value="Cargar Museos" onClick="window.location.href='/cargar'">
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

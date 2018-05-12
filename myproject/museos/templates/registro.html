@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <link rel="shortcut icon" href="{% static 'images/icono.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+
+<body>
+<p class="colorline"></p>
+<div id="registro">
+  <h1> Registro: </h1>
+  <p color="red">{{error}}</p>
+  <form method="post" action="/registro">
+  {% csrf_token %}
+  <p>Username: <input type="text" name="username"/> </p>
+  <p>Nombre: <input type="text" name="nombre"/></p>
+  <p>Apellidos: <input type="text" name="apellido"/></p>
+  <p>Contraseña: <input type="password" name="password"/></p>
+  <p>Repite tu contraseña: <input type="password" name="repeat_password"/></p>
+  <p><input type="submit" value="Sign In"/>
+    <input type="button" value="Volver" onClick="window.location.href='/'">
+  </p>
+  </form>
+</div>

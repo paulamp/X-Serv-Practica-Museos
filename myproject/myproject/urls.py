@@ -22,5 +22,8 @@ urlpatterns = [
     url(r'^login' , views.user_login),
     url(r'^logout',views.user_logout),
     url(r'^cargar',views.cargar),
+    url(r'^accesibles',views.accesibles),
+    url(r'^museo/(\d+)',views.info_museo),
+    url(r'^registro',views.registro),
     url(r'.*' , views.notFound),
 ]

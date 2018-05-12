@@ -1,0 +1,25 @@
+{% extends "new_base.html" %}
+{% load staticfiles %}
+
+{% block contents %}
+
+
+<h3>{{museo.nombre}}</h3>
+<p> {{ museos.descripcion_entidad}}
+<p>{{ museo.descripcion }}</p>
+<p>{{ museo.horario }}</p>
+<p>{{ museo.transporte }}</p>
+<p>{{ museo.direccion }}</p>
+<p>{{ museo.localidad }}</p>
+<p>{{ museo.provincia }}</p>
+<p>{{ museo.barrio }}</p>
+<p>{{ museo.distrito }}</p>
+<p>{{ museo.ubicacion }}</p>
+<p>{{ museo.telefono }}</p>
+<p>{{ museo.email }}</p>
+
+
+
+
+
+{% endblock %}

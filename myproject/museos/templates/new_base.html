@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <link rel="shortcut icon" href="{% static 'images/icono.ico' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+
+<body>
+<p class="colorline"></p>
+<div id="contain">
+
+<div id="header">
+  <div id="banner">
+    <a href="/"><img src="{% static 'images/icono.png' %}" alt="Inicio" width="90" height="90"></a>
+  </div>
+  <div id="login">
+  {% if request.user.is_authenticated %}
+    <div>
+    Logged in as {{ request.user.username }} <a href="/logout">Logout</a>
+    </div>
+  {% else %}
+    <form method="post" action="/login">
+    {% csrf_token %}
+    <p>Username: <input type="text" name="username" size="10"/> Password: <input type="password" name="password" size="10"/>
+    <input type="submit" value="Login"/></p>
+    <p>¿No estas registrado? <a href="/registro">Registrate</a></p>
+    </form>
+  {% endif %}
+</div>
+</div>
+
+{% block contents %}
+{% endblock %}
+
+
+
+<div id="footer">
+  <p>Esta aplicación utiliza datos del portal de datos abiertos de la ciudad de Madrid</p>
+</div>
+</div>
+</body>
+</html>
