@@ -10,9 +10,9 @@
 
 <body>
 <p class="colorline"></p>
-<div id="registro">
+<div>
   <h1> Registro: </h1>
-  <p color="red">{{error}}</p>
+  <p style="color: red;">{{error}}</p>
   <form method="post" action="/registro">
   {% csrf_token %}
   <p>Username: <input type="text" name="username"/> </p>

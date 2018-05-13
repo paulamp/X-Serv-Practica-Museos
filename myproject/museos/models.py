@@ -1,5 +1,6 @@
 from django.db import models
 
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Museo(models.Model):
@@ -18,3 +19,8 @@ class Museo(models.Model):
     ubicacion = models.CharField(max_length=50,default="")
     telefono = models.CharField(max_length=25,default="")
     email = models.CharField(max_length=50,default="")
+    numComentario = models.IntegerField(default=0)
+
+class Comentario(models.Model):
+    museo = models.ForeignKey(Museo)
+    contenido = models.CharField(max_length=400, default="")

@@ -1,0 +1,40 @@
+{% extends "new_base.html" %}
+{% load staticfiles %}
+
+{% block contents %}
+
+
+
+<div id="listamuseos">
+  <form action="/museos" method="post">
+    <p>
+      Filtro por distrito:
+      <select name="distrito">
+         <option value="">Elige una opción</option>
+        <option value="TODOS">TODOS</option>
+        {% if distritos %}
+          {% for d in distritos%}
+            <option value="{{ d.0 }}">{{ d.0 }}</option>
+          {% endfor %}
+        {% endif %}
+      </select>
+      <input type="submit" value="Filtrar">
+    </p>
+  </form>
+  <h2> Museos: </h2>
+  {% if museos %}
+    <div id=all>
+      {% for m in museos %}
+        <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
+        <div>Dirección: {{ m.direccion }}</div>
+        <div><a href="/museos/{{m.id}}">Mas información</a></div>
+        <hr>
+      {% endfor %}
+  {% else %}
+      <p>No hay museos cargados</p>
+  {% endif %}
+  </div>
+</div>
+
+
+{% endblock %}

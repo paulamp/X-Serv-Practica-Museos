@@ -26,12 +26,14 @@
 <div id="left">
   <div class="museos">
     {% if museos %}
-      <h3>Museos con mas comentarios</h3>
+
       {% if accesibles %}
+      <h3>Museos con mas comentarios y accesibles</h3>
       <form action="/">
         <p><input type="submit" value="Museos Todos"/></p>
       </form>
       {% else %}
+        <h3>Museos con mas comentarios</h3>
         <form action="/accesibles">
           <p><input type="submit" value="Museos Acesibles"/></p>
         </form>
@@ -40,7 +42,7 @@
         {% for m in museos %}
                 <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
                 <div>Dirección: {{ m.direccion }}</div>
-                <div><a href="/museo/{{m.id}}">Mas información</a></div>
+                <div><a href="/museos/{{m.id}}">Mas información</a></div>
                 <hr>
         {% endfor %}
     {% else %}

@@ -10,11 +10,11 @@
 
 <body>
 <p class="colorline"></p>
-<div id="contain">
+
 
 <div id="header">
   <div id="banner">
-    <a href="/"><img src="{% static 'images/icono.png' %}" alt="Inicio" width="90" height="90"></a>
+    <a href="/"><img src="{% static 'images/museo.png' %}" alt="Inicio" width="250px" height="90"></a>
   </div>
   <div id="login">
   {% if request.user.is_authenticated %}
@@ -31,6 +31,16 @@
   {% endif %}
 </div>
 </div>
+
+<div id="contain">
+<nav>
+        <!-- Listado de Navegación -->
+        <ul class="menu">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/museos">Museos</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+</nav>
 
 {% block contents %}
 {% endblock %}

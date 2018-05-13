@@ -3,23 +3,42 @@
 
 {% block contents %}
 
-
+<div id="info">
 <h3>{{museo.nombre}}</h3>
-<p> {{ museos.descripcion_entidad}}
+<p> {{ museo.descripcion_entidad}}
 <p>{{ museo.descripcion }}</p>
-<p>{{ museo.horario }}</p>
-<p>{{ museo.transporte }}</p>
-<p>{{ museo.direccion }}</p>
-<p>{{ museo.localidad }}</p>
-<p>{{ museo.provincia }}</p>
-<p>{{ museo.barrio }}</p>
-<p>{{ museo.distrito }}</p>
+<p><strong>Horario:</strong> {{ museo.horario }}</p>
+<p><strong>Como llegar: </strong>{{ museo.transporte }}</p>
+<p><strong>Dirección: </strong>{{ museo.direccion }}, {{ museo.localidad }}, {{ museo.provincia }}</p>
+<p>Barrio: {{ museo.barrio }}. Distrito: {{ museo.distrito }}</p>
 <p>{{ museo.ubicacion }}</p>
-<p>{{ museo.telefono }}</p>
-<p>{{ museo.email }}</p>
-
-
-
+<h5>Datos de contacto:</h5>
+<p>Teléfono: {{ museo.telefono }}</p>
+<p>Correo: {{ museo.email }}</p>
+</div>
+<div id="right">
+{% if request.user.is_authenticated %}
+  <form method="post" action="/comentario/{{museo.id}}">
+  <p>Comentario: </p><p><textarea name="contenido" style="resize:none;" maxlength="400" rows="10" cols="40"></textarea></p>
+  <input type="submit" value="Enviar"/></p>
+  </form>
+{% else %}
+  <h4>Registrate para poder poner comentarios</h4>
+{% endif %}
+</div>
+<div id=comentarios>
+  <h2> Comentarios: </h2>
+  {% if comentarios %}
+    <div id=lista>
+      {% for c in comentarios %}
+              <div>Contenido: {{ c.contenido }}</div>
+              <hr>
+      {% endfor %}
+  {% else %}
+      <p>No tiene comentarios disponibles</p>
+  {% endif %}
+  </div>
+</div>
 
 
 {% endblock %}

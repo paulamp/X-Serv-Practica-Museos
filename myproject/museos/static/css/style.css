@@ -10,22 +10,22 @@ p.colorline{
 	display: block;
 	width: 100%;
 	height: 20px;
-	background-color: #7B1314;
-	border-bottom: 3px solid #FCFAD5;
+	background-color: #99bbff;
+	border-bottom: 3px solid #e6f9ff;
 }
 #contain{
 	width: 1000px;
-	margin: 20px auto 0 auto;
+	margin: 0px auto 0 auto;
 	text-align: left;
 }
 
 #header{
 	text-align: right;
 	font-size: .8em;
-	height: 120px;
-	border: 1px solid #666;
+	height: 100px;
 	padding: 0;
 }
+
 #banner{
   float: left;
   text-align: center;
@@ -33,7 +33,7 @@ p.colorline{
 }
 #header #login{
   float: right;
-	height: 142px;
+	height: 102px;
 	margin: 8px;
 	padding-left: 25px;
   width: 75%
@@ -54,7 +54,8 @@ p.colorline{
 
 #right{
 	float: right;
-	width: 250px;
+	width: 300px;
+	margin-top: 35px;
 }
 
 .block{
@@ -92,12 +93,23 @@ a:hover{
 /*
 	Main Content
 */
+#info{
+	float: left;
+	width: 530px;
+	margin-top: 35px;
+	text-align: center;
+}
+
+#listamuseos{
+	clear: both;
+	padding-top: 35px;
+}
 
 
 #left{
 	float: left;
 	width: 430px;
-	margin-top: 15px;
+	margin-top: 35px;
 }
 #left h1{
 	font-size: 1.4em;
@@ -114,12 +126,20 @@ a:hover{
 	border-bottom: 1px solid #7B1314;
 }
 blockquote{
-	border-top: 2px solid #7B1314;
-	border-bottom: 2px solid #7B1314;
-	background: #FCFAD5 url(quote.gif) no-repeat;
+	border-top: 2px solid #e6f9ff;
+	border-bottom: 2px solid #e6f9ff;
+	background: #7B1314 url(quote.gif) no-repeat;
 	margin-top: 15px;
 	padding: 0 25px 0 25px;
 	font-size: .9em;
+}
+
+#comentarios{
+	clear: both;
+	text-align: center;
+}
+#lista{
+	 text-align: left;
 }
 
 /*
@@ -131,4 +151,36 @@ blockquote{
 	border-top:1px solid #7B1314;
 	padding-top: 5px;
 	text-align:center;
+}
+
+/* Main menu (tabs) */
+nav {
+position : absolute;
+left : 0;
+width : 100%;
+background : #99bbff;
+}
+nav ul {
+margin : 0 auto;
+width : 940px;
+list-style : none;
+}
+nav ul li {
+float : left;
+}
+nav ul li a {
+display : block;
+margin-right : 20px;
+width : 140px;
+font-size : 14px;
+line-height : 44px;
+text-align : center;
+text-decoration : none;
+color : black;
+}
+nav ul li a:hover {
+color : #fff;
+}
+nav ul li.selected a {
+color : #fff;
 }

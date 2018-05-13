@@ -23,7 +23,9 @@ urlpatterns = [
     url(r'^logout',views.user_logout),
     url(r'^cargar',views.cargar),
     url(r'^accesibles',views.accesibles),
-    url(r'^museo/(\d+)',views.info_museo),
+    url(r'^museos$',views.museos),
+    url(r'^museos/(\d+)',views.info_museo),
     url(r'^registro',views.registro),
+    url(r'^comentario/(\d+)',views.comentario),
     url(r'.*' , views.notFound),
 ]

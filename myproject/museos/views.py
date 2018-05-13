@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding=utf-8
 import sys
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -8,21 +10,67 @@ from django.template.loader import get_template
 from django.contrib import messages
 from django.template import Context
 from XMLparser import MuseoParser
-from models import Museo
+from models import Museo, Comentario
 
 # Create your views here.
+@csrf_exempt
+def museos(request):
+    distrito = ""
+    if request.method == "POST":
+        distrito = request.POST.get('distrito')
+        print ("AAA"+str(distrito))
+        if distrito == "TODOS":
+            museos = Museo.objects.all()
+        else:
+            museos = Museo.objects.filter(distrito=distrito)
+
+    else:
+        museos = Museo.objects.all()
+    distritos = Museo.objects.values_list('distrito').distinct()
+    context ={
+        'museos':museos,
+        'distritos': distritos,
+        'seleccionado': distrito
+    }
+    return render(request, 'museos.html',context)
+
+@csrf_exempt
+def comentario(request, id_museo):
+    if request.method == "POST":
+        if request.user.is_authenticated():
+            usuario = request.user
+            contenido = request.POST.get('contenido')
+            try:
+                museo = Museo.objects.get(id=id_museo)
+            except:
+                value = "Museo no disponible"
+                value += '<br><a href="/">Volver</a>'
+                return HttpResponse(value)
+            if not contenido:
+                value = "No hay comentario"
+                value += '<br><a href="/">Volver</a>'
+                return HttpResponse(value)
+            comentario = Comentario()
+            comentario.contenido = contenido
+            comentario.museo = museo
+            comentario.save()
+            museo.numComentario = museo.numComentario + 1
+            museo.save()
+    return HttpResponseRedirect("/museos/"+str(id_museo))
 
 def info_museo(request, id):
     try:
         museo = Museo.objects.get(id=id)
+        comentarios = Comentario.objects.filter(museo=museo)
         context ={
-            'museo':museo
+            'museo':museo,
+            'comentarios':comentarios
         }
         return render(request, 'museo.html',context)
     except:
         value = "Museo no disponible"
-        value += '<br><a href="/">Home</a>'
-        return HttpResponseRedirect(value)
+        value += '<br><a href="/">Volver</a>'
+        return HttpResponse(value)
 
 def accesibles(request):
     lista = Museo.objects.filter(accesibilidad=1)
@@ -38,7 +86,7 @@ def cargar(request):
     return HttpResponseRedirect("/")
 
 def home(request):
-    museos = Museo.objects.all()
+    museos = Museo.objects.filter( numComentario__gte = 1).order_by('numComentario')
     museos = museos[:5]
     context ={
         'museos':museos
@@ -97,19 +145,16 @@ def user_login(request):
                 login(request, user)
             else:
                 value = "Credenciales Invalidos"
-                value += '<br><a href="/">Home</a>'
+                value += '<br><a href="/">Volver</a>'
                 return HttpResponse(value)
     return HttpResponseRedirect('/')
 
 def user_logout(request):
     if request.user.is_authenticated():
         logout(request)
-        return HttpResponseRedirect('/')
-    else:
-        value = '<a href="/">Home</a>'
-    return HttpResponse(value)
+    return HttpResponseRedirect('/')
 
 def notFound(request):
     value = "Recurso no disponible"
-    value += '<br><a href="/">Home</a>'
+    value += '<br><a href="/">Volver</a>'
     return HttpResponse(value)

@@ -77,7 +77,7 @@ class MuseoParser():
                     longitud = elemento.text
                     continue
             m.direccion = clase_via + "/" + nombre_via + "Num: " + num + "CP: " + cp
-            m.ubicacion = "Latitud: " + latitud + "Longitud: " + longitud
+            m.ubicacion = "Latitud: " + latitud + " Longitud: " + longitud
             contactos = atributos.findall("*[@nombre='DATOSCONTACTOS']")[0]
             for contacto in contactos:
                 valor = contacto.attrib['nombre']
