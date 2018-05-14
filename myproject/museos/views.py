@@ -7,10 +7,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
-from django.contrib import messages
 from django.template import Context
 from XMLparser import MuseoParser
-from models import Museo, Comentario
+from models import Museo, Comentario, Perfil, Coleccion
 
 # Create your views here.
 @csrf_exempt
@@ -18,7 +17,6 @@ def museos(request):
     distrito = ""
     if request.method == "POST":
         distrito = request.POST.get('distrito')
-        print ("AAA"+str(distrito))
         if distrito == "TODOS":
             museos = Museo.objects.all()
         else:
@@ -35,42 +33,60 @@ def museos(request):
     return render(request, 'museos.html',context)
 
 @csrf_exempt
-def comentario(request, id_museo):
+def info_museo(request, id):
     if request.method == "POST":
         if request.user.is_authenticated():
             usuario = request.user
-            contenido = request.POST.get('contenido')
             try:
-                museo = Museo.objects.get(id=id_museo)
+                museo = Museo.objects.get(id=id)
             except:
                 value = "Museo no disponible"
                 value += '<br><a href="/">Volver</a>'
                 return HttpResponse(value)
-            if not contenido:
-                value = "No hay comentario"
-                value += '<br><a href="/">Volver</a>'
-                return HttpResponse(value)
-            comentario = Comentario()
-            comentario.contenido = contenido
-            comentario.museo = museo
-            comentario.save()
-            museo.numComentario = museo.numComentario + 1
-            museo.save()
-    return HttpResponseRedirect("/museos/"+str(id_museo))
 
-def info_museo(request, id):
-    try:
-        museo = Museo.objects.get(id=id)
-        comentarios = Comentario.objects.filter(museo=museo)
-        context ={
-            'museo':museo,
-            'comentarios':comentarios
-        }
-        return render(request, 'museo.html',context)
-    except:
-        value = "Museo no disponible"
-        value += '<br><a href="/">Volver</a>'
-        return HttpResponse(value)
+            favorito = request.POST.get("favorito")
+            if favorito:
+                coleccion = Coleccion()
+                coleccion.perfil = Perfil.objects.get(usuario=usuario.username)
+                coleccion.museo = museo
+                coleccion.save()
+
+            quitar_favorito = request.POST.get("quitar")
+            if quitar_favorito:
+                perfil = Perfil.objects.get(usuario=usuario.username)
+                coleccion = Coleccion.objects.filter(perfil=perfil,museo=museo).delete()
+
+            comentando = request.POST.get('comentando')
+            if comentando:
+                contenido = request.POST.get('contenido')
+                if contenido:
+                    comentario = Comentario()
+                    comentario.contenido = contenido
+                    comentario.museo = museo
+                    comentario.save()
+                    museo.numComentario = museo.numComentario + 1
+                    museo.save()
+        return HttpResponseRedirect("/museos/"+str(id))
+    else:
+        try:
+            museo = Museo.objects.get(id=id)
+            comentarios = Comentario.objects.filter(museo=museo)
+            seleccionado = False
+            if request.user.is_authenticated():
+                perfil = Perfil.objects.get(usuario=request.user.username)
+                coleccion = Coleccion.objects.filter(museo=museo,perfil=perfil)
+                if coleccion:
+                    seleccionado = True
+            context ={
+                'museo':museo,
+                'comentarios':comentarios,
+                'seleccionado': seleccionado
+            }
+            return render(request, 'museo.html',context)
+        except:
+            value = "Museo no disponible"
+            value += '<br><a href="/">Volver</a>'
+            return HttpResponse(value)
 
 def accesibles(request):
     lista = Museo.objects.filter(accesibilidad=1)
@@ -79,6 +95,7 @@ def accesibles(request):
         'accesibles':True
     }
     return render(request, 'index.html',context)
+
 def cargar(request):
     museos = Museo.objects.all()
     parse = MuseoParser()
@@ -86,12 +103,64 @@ def cargar(request):
     return HttpResponseRedirect("/")
 
 def home(request):
-    museos = Museo.objects.filter( numComentario__gte = 1).order_by('numComentario')
-    museos = museos[:5]
-    context ={
-        'museos':museos
+    museos = Museo.objects.all()
+    museos_comentarios = Museo.objects.filter( numComentario__gte = 1).order_by('numComentario')
+    museos_comentarios = museos_comentarios[:5]
+    paginas = Perfil.objects.all()
+    context = {
+        'museos':museos,
+        'museos_comentarios': museos_comentarios,
+        'paginas':paginas
     }
     return render(request, 'index.html',context)
+
+@csrf_exempt
+def perfil (request, usuario):
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            if request.user.username == usuario:
+                color = request.POST.get('color')
+                size = request.POST.get('size')
+                titulo = request.POST.get('titulo')
+                try:
+                    perfil = Perfil.objects.get(usuario=usuario)
+                except:
+                    value = "No tienes perfil"
+                    value += '<br><a href="/">Volver</a>'
+                    return HttpResponse(value)
+                if color:
+                    perfil.background = color
+                if size:
+                    perfil.size = size
+                if titulo:
+                    perfil.titulo = titulo
+                perfil.save()
+        return HttpResponseRedirect("/"+usuario)
+    else:
+        try:
+            perfil = Perfil.objects.get(usuario=usuario)
+            try:
+                coleccion = Coleccion.objects.filter(perfil=perfil)
+            except:
+                coleccion = ""
+            propietario = False
+            if request.user.is_authenticated():
+                if request.user.username == usuario:
+                    propietario = True
+            context= {
+                'background': perfil.background,
+                'titulo': perfil.titulo,
+                'size': perfil.size,
+                'usuario': perfil.usuario,
+                'propietario': propietario,
+                'coleccion': coleccion
+            }
+            return render(request, 'perfil.html',context)
+        except:
+            value = "Recursos no disponibles"
+            value += '<br><a href="/">Volver</a>'
+            return HttpResponse(value)
+
 
 @csrf_exempt
 def registro (request):
@@ -122,7 +191,13 @@ def registro (request):
                                                     last_name=apellido
                                                     )
                 user.save()
-                messages.success(request, "Usuario creado con exito")
+                perfil = Perfil()
+                pagina = u"Página de "
+                perfil.titulo = pagina + username
+                perfil.background = "white"
+                perfil.size = ".8em"
+                perfil.usuario = username
+                perfil.save()
             else:
                 context ={
                     'error': "Tus claves no son iguales"
@@ -137,7 +212,6 @@ def user_login(request):
         if not request.user.is_authenticated():
             username = request.POST.get('username')
             password = request.POST.get('password')
-            print ("HOLLLLAAA" +str(username))
             if not username or not password:
                 return HttpResponseRedirect('/')
             user = authenticate(username=username, password=password)
@@ -153,8 +227,3 @@ def user_logout(request):
     if request.user.is_authenticated():
         logout(request)
     return HttpResponseRedirect('/')
-
-def notFound(request):
-    value = "Recurso no disponible"
-    value += '<br><a href="/">Volver</a>'
-    return HttpResponse(value)

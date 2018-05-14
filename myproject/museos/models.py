@@ -24,3 +24,13 @@ class Museo(models.Model):
 class Comentario(models.Model):
     museo = models.ForeignKey(Museo)
     contenido = models.CharField(max_length=400, default="")
+
+class Perfil(models.Model):
+    usuario = models.CharField(max_length=30)
+    size = models.CharField(max_length=20)
+    background = models.CharField(max_length=30)
+    titulo = models.CharField(max_length=50)
+
+class Coleccion(models.Model):
+    perfil = models.ForeignKey(Perfil)
+    museo = models.ForeignKey(Museo)

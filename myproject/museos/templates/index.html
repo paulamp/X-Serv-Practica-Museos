@@ -5,46 +5,47 @@
 <div id="right">
 <div class="block">
 <strong>Página de usuarios</strong>
-    <ul>
-      <li><a href="#">Home Page</a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Page 1 </a></li>
-      <li><a href="#">Really Long Title of Page 2 </a></li>
-      </ul>
-</div>
-<div class="block">
- <strong>Some Header for a Message</strong>
-  <p>This is the message that you can type in the sidebox.  It could be a news heading or even a new article with a teaser.</p>
+<ul>
+  {% if paginas %}
+
+    {% for p in paginas %}
+            <li>{{p.usuario}}:<a href="/{{p.usuario}}"> {{p.titulo}} </a></li>
+    {% endfor %}
+
+  {% else %}
+      <li>No hay páginas de usuarios disponibles</li>
+  {% endif %}
+  </ul>
 
 </div>
 </div>
+
 <div id="left">
   <div class="museos">
     {% if museos %}
-
       {% if accesibles %}
-      <h3>Museos con mas comentarios y accesibles</h3>
-      <form action="/">
-        <p><input type="submit" value="Museos Todos"/></p>
-      </form>
+        <h3>Museos con mas comentarios y accesibles</h3>
+        <form action="/">
+          <p><input type="submit" value="Museos Todos"/></p>
+        </form>
       {% else %}
         <h3>Museos con mas comentarios</h3>
         <form action="/accesibles">
           <p><input type="submit" value="Museos Acesibles"/></p>
         </form>
       {% endif %}
-        <br>
-        {% for m in museos %}
-                <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
-                <div>Dirección: {{ m.direccion }}</div>
-                <div><a href="/museos/{{m.id}}">Mas información</a></div>
-                <hr>
-        {% endfor %}
+
+      {% if museos_comentarios %}
+          <br>
+          {% for m in museos_comentarios %}
+                  <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
+                  <div>Dirección: {{ m.direccion }}</div>
+                  <div><a href="/museos/{{m.id}}">Mas información</a></div>
+                  <hr>
+          {% endfor %}
+      {% else %}
+          <p>No hay museos con comentarios</p>
+      {% endif %}
     {% else %}
       <h3>Bienvenido a Museos de Madrid</h3>
       <input type="button" value="Cargar Museos" onClick="window.location.href='/cargar'">

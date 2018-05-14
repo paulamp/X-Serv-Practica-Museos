@@ -10,12 +10,12 @@ p.colorline{
 	display: block;
 	width: 100%;
 	height: 20px;
-	background-color: #99bbff;
-	border-bottom: 3px solid #e6f9ff;
+	background-color: #074f7a;
+	border-bottom: 3px solid #074f7a;
 }
 #contain{
 	width: 1000px;
-	margin: 0px auto 0 auto;
+	margin: 55px auto 0 auto;
 	text-align: left;
 }
 
@@ -24,6 +24,7 @@ p.colorline{
 	font-size: .8em;
 	height: 100px;
 	padding: 0;
+	background-color: #99bbff;
 }
 
 #banner{
@@ -55,21 +56,20 @@ p.colorline{
 #right{
 	float: right;
 	width: 300px;
-	margin-top: 35px;
 }
 
 .block{
-	border-top: 2px solid #7B1314;
-	border-bottom: 2px solid #7B1314;
-	background-color: #FCFAD5;
+	border-top: 2px solid #074f7a;
+	border-bottom: 2px solid #074f7a;
+	background-color: #ebf5fb;
 	margin-top: 15px;
 	font-size: .9em;
 }
 a{
-	color: #7B1314;
+	color: #074f7a;
 }
 a:hover{
-	color: #1981F6;
+	color: #db55aa;
 	text-decoration: underline;
 }
 .block a{
@@ -96,24 +96,15 @@ a:hover{
 #info{
 	float: left;
 	width: 530px;
-	margin-top: 35px;
 	text-align: center;
 }
-
-#listamuseos{
-	clear: both;
-	padding-top: 35px;
-}
-
 
 #left{
 	float: left;
 	width: 430px;
-	margin-top: 35px;
 }
 #left h1{
 	font-size: 1.4em;
-	color: #7B1314;
 }
 #left h2{
 	font-size: 1.2em;
@@ -128,7 +119,7 @@ a:hover{
 blockquote{
 	border-top: 2px solid #e6f9ff;
 	border-bottom: 2px solid #e6f9ff;
-	background: #7B1314 url(quote.gif) no-repeat;
+	background: #074f7a url(quote.gif) no-repeat;
 	margin-top: 15px;
 	padding: 0 25px 0 25px;
 	font-size: .9em;
@@ -142,23 +133,46 @@ blockquote{
 	 text-align: left;
 }
 
+#perfil{
+	width: 1000px;
+	margin: 0px auto 0 auto;
+	overflow:hidden;
+}
+#registro{
+	text-align: right;
+}
+#immagenRengistro{
+	text-align: left;
+	margin-top: 40px;
+}
 /*
 	Footer
 */
-#footer{
+#pie{
+	position: fixed;
+	width: 100%;
+	bottom: 0;
 	clear: both;
 	font-size: .8em;
-	border-top:1px solid #7B1314;
-	padding-top: 5px;
+	padding-top: 15px;
 	text-align:center;
 }
-
+p.finalline{
+	margin: 0;
+	padding: 0;
+	display: block;
+	width: 100%;
+	height: 25px;
+	background-color: #99bbff;
+	border-bottom: 3px solid #99bbff;
+	text-align: center;
+}
 /* Main menu (tabs) */
 nav {
 position : absolute;
 left : 0;
 width : 100%;
-background : #99bbff;
+background : #074f7a;
 }
 nav ul {
 margin : 0 auto;
@@ -172,11 +186,11 @@ nav ul li a {
 display : block;
 margin-right : 20px;
 width : 140px;
-font-size : 14px;
+font-size : 20px;
 line-height : 44px;
 text-align : center;
 text-decoration : none;
-color : black;
+color : white;
 }
 nav ul li a:hover {
 color : #fff;
