@@ -88,29 +88,30 @@ def info_museo(request, id):
             value += '<br><a href="/">Volver</a>'
             return HttpResponse(value)
 
-def accesibles(request):
-    lista = Museo.objects.filter(accesibilidad=1)
-    context ={
-        'museos':lista,
-        'accesibles':True
-    }
-    return render(request, 'index.html',context)
-
 def cargar(request):
-    museos = Museo.objects.all()
     parse = MuseoParser()
     parse.cargar()
     return HttpResponseRedirect("/")
 
+@csrf_exempt
 def home(request):
+    accesibles = False
+    if request.method == "POST":
+        accesibles = request.POST.get('accesibles')
+        if accesibles:
+            accesibles = True
+    if accesibles:
+        museos_comentarios = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('numComentario')
+    else:
+        museos_comentarios = Museo.objects.filter( numComentario__gte=1).order_by('numComentario')
     museos = Museo.objects.all()
-    museos_comentarios = Museo.objects.filter( numComentario__gte = 1).order_by('numComentario')
     museos_comentarios = museos_comentarios[:5]
     paginas = Perfil.objects.all()
     context = {
         'museos':museos,
         'museos_comentarios': museos_comentarios,
-        'paginas':paginas
+        'paginas':paginas,
+        'accesibles':accesibles
     }
     return render(request, 'index.html',context)
 
