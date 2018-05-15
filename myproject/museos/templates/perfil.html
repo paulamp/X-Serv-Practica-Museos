@@ -49,15 +49,22 @@
     <p><input type="submit" value="XML"/></p>
     </form>
     {% if coleccion %}
-    {% for c in coleccion %}
-            <div>Nombre: <a href="{{ c.museo.url }}">{{ c.museo.nombre }}</a></div>
-            <div>Dirección: {{ c.museo.direccion }}</div>
-            <div><a href="/museos/{{c.museo.id}}">Mas información</a></div>
-            <hr>
-    {% endfor %}
+      {% for c in coleccion %}
+              <div>Nombre: <a href="{{ c.museo.url }}">{{ c.museo.nombre }}</a></div>
+              <div>Dirección: {{ c.museo.direccion }}</div>
+              <div><a href="/museos/{{c.museo.id}}">Mas información</a></div>
+              <hr>
+      {% endfor %}
     {% else %}
-    <p>Este usuario no tiene agregado ningún museo a favoritos </p>
+      <p>Este usuario no tiene agregado ningún museo a favoritos </p>
     {% endif %}
+    <div>
+      <section class="paginacion">
+        <ul>
+              {{ paginacion|safe }}
+        </ul>
+      </section>
+    </div>
   </div>
   {% if propietario %}
   <div id="right">

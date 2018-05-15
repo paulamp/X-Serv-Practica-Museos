@@ -30,7 +30,7 @@
         </form>
       {% else %}
         <h3>Museos con mas comentarios</h3>
-        <form action="/" method="post">
+        <form action="/" method="get">
           <p><input type="submit" name="accesibles" value="Museos Acesibles"/></p>
         </form>
       {% endif %}
@@ -51,6 +51,13 @@
       <input type="button" value="Cargar Museos" onClick="window.location.href='/cargar'">
 
     {% endif %}
+  </div>
+  <div>
+    <section class="paginacion">
+      <ul>
+            {{ paginacion|safe }}
+      </ul>
+    </section>
   </div>
 </div>
 {% endblock %}

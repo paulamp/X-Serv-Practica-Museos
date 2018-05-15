@@ -95,25 +95,45 @@ def cargar(request):
     parse.cargar()
     return HttpResponseRedirect("/")
 
+def calcular_paginacion(url,museos):
+    numero_paginacion = ""
+    total = len(museos)
+    cociente = total/5
+    resto = total%5
+    if resto != 0:
+        cociente += 1
+    paginas = cociente
+    inicio = 0
+    final = 5
+    for numero in range(paginas):
+        numero_paginacion += "<li><a href='"+str(url)+"offset="+str(inicio)+"&max="+str(final)+"'>"+str(numero+1)+"</a></li>"
+        inicio += 5
+        final += 5
+    return numero_paginacion
+
+
 @csrf_exempt
 def home(request):
-    accesibles = False
-    if request.method == "POST":
-        accesibles = request.POST.get('accesibles')
-        if accesibles:
-            accesibles = True
+    accesibles = request.GET.get('accesibles',False)
     if accesibles:
-        museos_comentarios = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('numComentario')
+        total_museos = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('numComentario')
+        numero_paginacion = calcular_paginacion("/?accesibles=True",total_museos)
     else:
-        museos_comentarios = Museo.objects.filter( numComentario__gte=1).order_by('numComentario')
+        total_museos = Museo.objects.filter( numComentario__gte=1).order_by('numComentario')
+        numero_paginacion = calcular_paginacion("/?",total_museos)
+
     museos = Museo.objects.all()
-    museos_comentarios = museos_comentarios[:5]
+    offset = request.GET.get('offset', 0)
+    max = request.GET.get('max', 5)
+    museos_comentarios = total_museos[int(offset):int(max)]
+
     paginas = Perfil.objects.all()
     context = {
         'museos':museos,
         'museos_comentarios': museos_comentarios,
         'paginas':paginas,
-        'accesibles':accesibles
+        'accesibles':accesibles,
+        'paginacion': numero_paginacion
     }
     return render(request, 'index.html',context)
 
@@ -178,6 +198,8 @@ def perfil (request, usuario):
             perfil = Perfil.objects.get(usuario=usuario)
             try:
                 coleccion = Coleccion.objects.filter(perfil=perfil)
+                url = "/"+str(usuario)+"?"
+                numero_paginacion = calcular_paginacion(url,coleccion)
             except:
                 coleccion = ""
             propietario = False
@@ -190,7 +212,8 @@ def perfil (request, usuario):
                 'size': perfil.size,
                 'usuario': perfil.usuario,
                 'propietario': propietario,
-                'coleccion': coleccion
+                'coleccion': coleccion,
+                'paginacion': numero_paginacion
             }
             return render(request, 'perfil.html',context)
         except:
@@ -237,7 +260,7 @@ def registro (request):
                 perfil.save()
             else:
                 context ={
-                    'error': "Tus claves no son iguales"
+                    'error': u"Las contraseñas no son iguales"
                 }
                 return render(request, 'registro.html',context)
         return HttpResponseRedirect('/')
