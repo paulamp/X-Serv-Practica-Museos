@@ -7,6 +7,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
+from xml.etree.ElementTree import tostring
+import xml.etree.ElementTree as ET
 from django.template import Context
 from XMLparser import MuseoParser
 from models import Museo, Comentario, Perfil, Coleccion
@@ -114,6 +116,40 @@ def home(request):
         'accesibles':accesibles
     }
     return render(request, 'index.html',context)
+
+def xml_usuario(request, usuario):
+    try:
+        perfil = Perfil.objects.get(usuario=usuario)
+        try:
+            seleccionados = Coleccion.objects.filter(perfil=perfil)
+        except:
+            seleccionados = ""
+        coleccion = ET.Element("coleccion")
+        for seleccionado in seleccionados:
+            museo = ET.SubElement(coleccion, "museo")
+            ET.SubElement(museo, "atributo", name="NOMBRE").text = seleccionado.museo.nombre
+            ET.SubElement(museo, "atributo", name="DESCRIPCION-ENTIDAD").text = seleccionado.museo.descripcion_entidad
+            ET.SubElement(museo, "atributo", name="HORARIO").text = seleccionado.museo.horario
+            ET.SubElement(museo, "atributo", name="TRANSPORTE").text = seleccionado.museo.transporte
+            ET.SubElement(museo, "atributo", name="DESCRIPCION").text = seleccionado.museo.descripcion
+            ET.SubElement(museo, "atributo", name="ACCESIBILIDAD").text = str(seleccionado.museo.accesibilidad)
+            ET.SubElement(museo, "atributo", name="CONTENT-URL").text = seleccionado.museo.url
+            localizacion = ET.SubElement(museo, "atributo", name="LOCALIZACION")
+            ET.SubElement(localizacion, "atributo", name="DIRECCION").text = seleccionado.museo.direccion
+            ET.SubElement(localizacion, "atributo", name="LOCALIDAD").text = seleccionado.museo.localidad
+            ET.SubElement(localizacion, "atributo", name="PROVINCIA").text = seleccionado.museo.provincia
+            ET.SubElement(localizacion, "atributo", name="BARRIO").text = seleccionado.museo.barrio
+            ET.SubElement(localizacion, "atributo", name="DISTRITO").text = seleccionado.museo.distrito
+            ET.SubElement(localizacion, "atributo", name="UBICACION").text = seleccionado.museo.ubicacion
+            contactos = ET.SubElement(museo, "atributo", name="DATOSCONTACTOS")
+            ET.SubElement(contactos, "atributo", name="TELEFONO").text = seleccionado.museo.telefono
+            ET.SubElement(contactos, "atributo", name="EMAIL").text = seleccionado.museo.email
+        xmlstr = tostring(coleccion)
+        return HttpResponse(xmlstr,content_type='text/xml')
+    except:
+        value = "XML no disponible"
+        value += '<br><a href="/">Volver</a>'
+        return HttpResponse(value)
 
 @csrf_exempt
 def perfil (request, usuario):
