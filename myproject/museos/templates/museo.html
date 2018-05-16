@@ -17,41 +17,44 @@
     {% endif %}
   {% endif %}
   </h3>
-  <p> {{ museo.descripcion_entidad}}
-  <p>{{ museo.descripcion }}</p>
-  <p><strong>Horario:</strong> {{ museo.horario }}</p>
+  <p align="justify"> {{ museo.descripcion_entidad}}
+  <p align="justify">{{ museo.descripcion }}</p>
+  <p><strong>Horario:</strong></p>
+  <p align="justify">{{ museo.horario }}</p>
   <p><strong>Como llegar: </strong>{{ museo.transporte }}</p>
   <p><strong>Dirección: </strong>{{ museo.direccion }}, {{ museo.localidad }}, {{ museo.provincia }}</p>
-  <p>Barrio: {{ museo.barrio }}. Distrito: {{ museo.distrito }}</p>
+  <p><strong>Barrio: </strong>{{ museo.barrio }}. <strong>Distrito: </strong>{{ museo.distrito }}</p>
   <p>{{ museo.ubicacion }}</p>
+  {% if museo.accesibilidad %}
+      <p><strong>Acesibilidad: </strong>Accesible</p>
+  {% else %}
+      <p><strong>Acesibilidad: </strong> No Accesible</p>
+  {% endif %}
   <h5>Datos de contacto:</h5>
-  <p>Teléfono: {{ museo.telefono }}</p>
-  <p>Correo: {{ museo.email }}</p>
+  <p><strong>Teléfono: </strong>{{ museo.telefono }}</p>
+  <p><strong>Correo: </strong>{{ museo.email }}</p>
 </div>
 
 <div id="right">
-{% if request.user.is_authenticated %}
-  <form method="post" action="/museos/{{museo.id}}">
-  <p>Comentario: </p><p><textarea name="contenido" style="resize:none;" maxlength="400" rows="10" cols="40"></textarea></p>
-  <input type="submit" name="comentando" value="Enviar"/></p>
-  </form>
-{% else %}
-  <h4>Registrate para poder poner comentarios</h4>
-{% endif %}
-</div>
-<div id=comentarios>
   <h2> Comentarios: </h2>
   {% if comentarios %}
     <div id="lista">
       {% for c in comentarios %}
-              <div>Contenido: {{ c.contenido }}</div>
-              <hr>
+              <div class="comentarios"><font color="#074f7a"><strong>Un usuario ha comentado: </strong></font><br>{{ c.contenido }}</div>
+              <br>
       {% endfor %}
   {% else %}
-      <p>No tiene comentarios disponibles</p>
+      <p><font color="Navy"><strong>No hay comentarios. ¡Registrate y sé el primero en dejar uno! </strong></font></p>
   {% endif %}
   </div>
+  {% if request.user.is_authenticated %}
+    <form method="post" action="/museos/{{museo.id}}">
+    <p style="text-align:center;">¡Deja un comentario!</p><p><textarea name="contenido" style="resize:none;" maxlength="400" rows="10" cols="40"></textarea></p>
+    <input type="submit" name="comentando" value="Enviar"/></p>
+    </form>
+  {% else %}
+    <h4>Registrate para poder poner comentarios</h4>
+  {% endif %}
 </div>
-
 
 {% endblock %}

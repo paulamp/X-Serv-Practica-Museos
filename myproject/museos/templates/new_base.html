@@ -24,7 +24,7 @@
   {% else %}
     <form method="post" action="/login">
     {% csrf_token %}
-    <p>Username: <input type="text" name="username" size="10"/> Password: <input type="password" name="password" size="10"/>
+    <p>Username: <input type="text" name="username" size="8"/> Password: <input type="password" name="password" size="8"/>
     <input type="submit" value="Login"/></p>
     <p>¿No estas registrado? <a href="/registro">Registrate</a></p>
     </form>
@@ -34,7 +34,9 @@
 <nav>
         <!-- Listado de Navegación -->
         <ul class="menu">
-            <li><a href="/">Inicio</a></li>
+            {% if not home %}
+              <li><a href="/">Inicio</a></li>
+            {% endif %}
             <li><a href="/museos">Todos</a></li>
             <li><a href="/about">About</a></li>
         </ul>

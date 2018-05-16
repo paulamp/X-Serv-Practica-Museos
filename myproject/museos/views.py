@@ -14,9 +14,10 @@ from XMLparser import MuseoParser
 from models import Museo, Comentario, Perfil, Coleccion
 
 # Create your views here.
-@csrf_exempt
+
 def mostrarAbout (request):
     return render(request, 'about.html')
+
 @csrf_exempt
 def museos(request):
     distrito = ""
@@ -119,24 +120,24 @@ def calcular_paginacion(url,museos):
 def home(request):
     accesibles = request.GET.get('accesibles',False)
     if accesibles:
-        total_museos = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('numComentario')
+        total_museos = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('-numComentario')
         numero_paginacion = calcular_paginacion("/?accesibles=True",total_museos)
     else:
-        total_museos = Museo.objects.filter( numComentario__gte=1).order_by('numComentario')
+        total_museos = Museo.objects.filter( numComentario__gte=1).order_by('-numComentario')
         numero_paginacion = calcular_paginacion("/?",total_museos)
 
     museos = Museo.objects.all()
     offset = request.GET.get('offset', 0)
     max = request.GET.get('max', 5)
     museos_comentarios = total_museos[int(offset):int(max)]
-
     paginas = Perfil.objects.all()
     context = {
         'museos':museos,
         'museos_comentarios': museos_comentarios,
         'paginas':paginas,
         'accesibles':accesibles,
-        'paginacion': numero_paginacion
+        'paginacion': numero_paginacion,
+        'home':True
     }
     return render(request, 'index.html',context)
 
@@ -203,6 +204,9 @@ def perfil (request, usuario):
                 coleccion = Coleccion.objects.filter(perfil=perfil)
                 url = "/"+str(usuario)+"?"
                 numero_paginacion = calcular_paginacion(url,coleccion)
+                offset = request.GET.get('offset', 0)
+                max = request.GET.get('max', 5)
+                coleccion = coleccion[int(offset):int(max)]
             except:
                 coleccion = ""
             propietario = False

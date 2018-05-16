@@ -127,11 +127,6 @@ blockquote{
 	font-size: .9em;
 }
 
-#comentarios{
-	clear: both;
-	text-align: center;
-	padding-bottom: 30px;
-}
 #lista{
 	 text-align: left;
 }
@@ -140,6 +135,16 @@ blockquote{
 	padding-bottom: 30px;
 }
 
+#about{
+	padding-bottom: 30px;
+}
+
+.comentarios{
+	border: 1px solid black;
+	border-radius: 18px 18px 18px 18px;
+	padding:5px 10px;
+	word-wrap: break-word;
+}
 .paginacion {
 	margin:20px 0;
 }
@@ -202,32 +207,32 @@ p.finalline{
 }
 /* Main menu (tabs) */
 nav {
-position : absolute;
-left : 0;
-width : 100%;
-background : #074f7a;
+	position : absolute;
+	left : 0;
+	width : 100%;
+	background : #074f7a;
 }
 nav ul {
-margin : 0 auto;
-width : 940px;
-list-style : none;
+	margin : 0 auto;
+	width : 940px;
+	list-style : none;
 }
 nav ul li {
-float : left;
+	float : left;
 }
 nav ul li a {
-display : block;
-margin-right : 20px;
-width : 140px;
-font-size : 20px;
-line-height : 44px;
-text-align : center;
-text-decoration : none;
-color : white;
+	display : block;
+	margin-right : 20px;
+	width : 140px;
+	font-size : 20px;
+	line-height : 44px;
+	text-align : center;
+	text-decoration : none;
+	color : white;
 }
 nav ul li a:hover {
-color : #fff;
+	color : #fff;
 }
 nav ul li.selected a {
-color : #fff;
+	color : #fff;
 }
