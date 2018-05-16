@@ -1,0 +1,14 @@
+{% extends "new_base.html" %}
+{% load staticfiles %}
+
+{% block contents %}
+
+<div id="left">
+  <h1 style="text-align: left;"> ¡Bienvenido a Museos de Madrid! </h1>
+  {% csrf_token %}
+  <p>Estas leyendo el apartado de “About” aquí te ofrecemos información sobre el funcionamiento y lo que puedes encontrar en nuestra página. Siempre podrás volver a la pagina principal pinchando “Inicio” o el logo situado en la parte superior izquierda.</p>
+  <p>En esta página encontrarás todos los museos de la Comunidad de Madrid. Para que puedas ver toda su  información relevante, horarios, como llegar etc .
+  El funcionamiento de la página es muy sencillo y apto para todos los públicos. Como habrás podido observar al entrar existe un botón donde podrás cargar todos los museos, es tan sencillo como pinchar y ¡Listo! . Ya los tienes todos a tu disposición. </p>
+  <p> En la página principal o de inicio podrás ver aquellos museos donde la gente ha dejado mas comentarios o donde hay comentarios, para que además puedas ver cuales son los mas recomendados o los que por el contrario tiene criticas negativas. Además en la parte superior de este apartado hay un botón donde si pinchas podrás ver cuales de ellos son accesibles (aptos para todos). Y cuando quieras volver a ver los de antes solo tendrás que volver a pinchar en ese mismo botón y los podrás ver de nuevo.</p>
+</div>
+{% endblock %}

@@ -15,6 +15,9 @@ from models import Museo, Comentario, Perfil, Coleccion
 
 # Create your views here.
 @csrf_exempt
+def mostrarAbout (request):
+    return render(request, 'about.html')
+@csrf_exempt
 def museos(request):
     distrito = ""
     if request.method == "POST":
