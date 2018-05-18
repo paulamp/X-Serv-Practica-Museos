@@ -43,18 +43,20 @@
               <div class="comentarios"><font color="#074f7a"><strong>Un usuario ha comentado: </strong></font><br>{{ c.contenido }}</div>
               <br>
       {% endfor %}
+    </div>
   {% else %}
-      <p><font color="Navy"><strong>No hay comentarios. ¡Registrate y sé el primero en dejar uno! </strong></font></p>
+      <div><p><font color="Navy"><strong>Este museo no tiene comentarios.</strong></font></p></div>
   {% endif %}
-  </div>
+  <div id="formcomentario">
   {% if request.user.is_authenticated %}
     <form method="post" action="/museos/{{museo.id}}">
     <p style="text-align:center;">¡Deja un comentario!</p><p><textarea name="contenido" style="resize:none;" maxlength="400" rows="10" cols="40"></textarea></p>
     <input type="submit" name="comentando" value="Enviar"/></p>
     </form>
   {% else %}
-    <h4>Registrate para poder poner comentarios</h4>
+    <h4>¡Registrate para poder comentar en este museo!</h4>
   {% endif %}
+  </div>
 </div>
 
 {% endblock %}

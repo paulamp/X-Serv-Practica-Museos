@@ -94,11 +94,6 @@ def info_museo(request, id):
             value += '<br><a href="/">Volver</a>'
             return HttpResponse(value)
 
-def cargar(request):
-    parse = MuseoParser()
-    parse.cargar()
-    return HttpResponseRedirect("/")
-
 def calcular_paginacion(url,museos):
     numero_paginacion = ""
     total = len(museos)
@@ -119,9 +114,14 @@ def calcular_paginacion(url,museos):
 @csrf_exempt
 def home(request):
     accesibles = request.GET.get('accesibles',False)
+    cargar = request.GET.get('cargar',False)
     if accesibles:
         total_museos = Museo.objects.filter( numComentario__gte=1, accesibilidad=1).order_by('-numComentario')
-        numero_paginacion = calcular_paginacion("/?accesibles=True",total_museos)
+        numero_paginacion = calcular_paginacion("/?accesibles=True&",total_museos)
+    elif cargar:
+        parse = MuseoParser()
+        parse.cargar()
+        return HttpResponseRedirect("/")
     else:
         total_museos = Museo.objects.filter( numComentario__gte=1).order_by('-numComentario')
         numero_paginacion = calcular_paginacion("/?",total_museos)
@@ -262,7 +262,7 @@ def registro (request):
                 pagina = u"Página de "
                 perfil.titulo = pagina + username
                 perfil.background = "white"
-                perfil.size = ".8em"
+                perfil.size = ".9em"
                 perfil.usuario = username
                 perfil.save()
             else:

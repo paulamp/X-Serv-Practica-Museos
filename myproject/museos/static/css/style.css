@@ -98,6 +98,7 @@ a:hover{
 	float: left;
 	width: 530px;
 	text-align: center;
+	padding-bottom: 30px;
 }
 
 #left{
@@ -129,6 +130,10 @@ blockquote{
 
 #lista{
 	 text-align: left;
+}
+
+#formcomentario{
+	text-align: left;
 }
 
 #listamuseos{
