@@ -52,6 +52,7 @@
       {% for c in coleccion %}
               <div>Nombre: <a href="{{ c.museo.url }}">{{ c.museo.nombre }}</a></div>
               <div>Dirección: {{ c.museo.direccion }}</div>
+              <div>Fecha: {{ c.date }}</div>
               <div><a href="/museos/{{c.museo.id}}">Mas información</a></div>
               <hr>
       {% endfor %}

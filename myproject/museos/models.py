@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -34,4 +34,4 @@ class Perfil(models.Model):
 class Coleccion(models.Model):
     perfil = models.ForeignKey(Perfil)
     museo = models.ForeignKey(Museo)
-    fecha = models.DateField(auto_now_add=True)
+    date = models.DateField(default=datetime.date.today)
