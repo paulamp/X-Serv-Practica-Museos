@@ -26,7 +26,6 @@
     <div id=all>
       {% for m in museos %}
         <div>Nombre: <a href="{{ m.url }}">{{ m.nombre }}</a></div>
-        <div>Dirección: {{ m.direccion }}</div>
         <div><a href="/museos/{{m.id}}">Mas información</a></div>
         <hr>
       {% endfor %}
