@@ -34,3 +34,4 @@ class Perfil(models.Model):
 class Coleccion(models.Model):
     perfil = models.ForeignKey(Perfil)
     museo = models.ForeignKey(Museo)
+    fecha = models.DateField(auto_now_add=True)
